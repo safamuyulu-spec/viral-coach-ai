@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Viral Coach AI</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F7F6FA;--card:#fff;--line:#E1DFEA;--text:#17171F;--muted:#5E5C70;--accent:#C2185B;--on:#fff;--amber:#FFC857;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:light dark}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0F0F17;--card:#191925;--line:#2A2A3A;--text:#F4F3F8;--muted:#A5A3B5;--accent:#FF5C8A;--on:#0F0F17}}
+:root[data-theme="dark"]{--bg:#0F0F17;--card:#191925;--line:#2A2A3A;--text:#F4F3F8;--muted:#A5A3B5;--accent:#FF5C8A;--on:#0F0F17}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+[hidden]{display:none!important}
+body{margin:0;background:var(--bg);color:var(--text);font-family:'Plus Jakarta Sans',system-ui,sans-serif}
+main{max-width:480px;margin:0 auto;padding:20px 20px 96px}
+section{display:flex;flex-direction:column;gap:14px}
+h1{margin:0;font-size:26px;font-weight:800}
+.brand{margin:0;color:var(--accent);font-weight:800;font-size:15px;letter-spacing:.04em}
+.big{margin:0;font-size:36px;line-height:1.1;font-weight:800}
+.k{margin:0;font-size:13px;line-height:1.5;color:var(--muted)}
+.card{background:var(--card);border-radius:16px;padding:16px}
+.lab{margin:0;font-size:13px;font-weight:800;color:var(--accent)}
+.card p:not(.lab){margin:6px 0 0;font-size:15px;line-height:1.5}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.v{font-size:26px;font-weight:800;margin-top:4px}
+.btn{min-height:56px;border:0;border-radius:16px;background:var(--accent);color:var(--on);font:800 16px 'Plus Jakarta Sans',system-ui,sans-serif;cursor:pointer}
+.ghost{background:none;color:var(--text);border:1px solid var(--line)}
+#banner{background:var(--amber);color:#17171F;border-radius:12px;padding:10px 14px;font-size:12px;font-weight:800;text-align:center;margin-bottom:14px}
+nav{position:fixed;left:0;right:0;bottom:0;display:flex;background:var(--card);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0px)}
+nav button{flex:1;min-height:64px;background:none;border:0;font:700 12px 'Plus Jakarta Sans',system-ui,sans-serif;color:var(--muted)}
+nav button[aria-current="true"]{color:var(--accent)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.chip{background:var(--bg);border-radius:99px;padding:8px 12px;font-size:13px}
+.task{display:flex;align-items:center;gap:12px;background:var(--card);border-radius:14px;padding:14px;font-size:14px;line-height:1.4}
+.task input{width:24px;height:24px;accent-color:var(--accent);flex:none}
+a{color:var(--muted)}
+</style>
+</head>
+<body>
+<main>
+<div id="banner" hidden>MODE DÉMONSTRATION — DONNÉES FICTIVES</div>
+
+<section data-v="home" style="min-height:80vh">
+<p class="brand">VIRAL COACH AI</p>
+<h1 class="big">Ton coach IA pour créer du contenu qui marche.</h1>
+<p class="k" style="font-size:16px">Connecte ton compte, comprends ce qui fonctionne et reçois un plan d’action clair, jour après jour.</p>
+<div style="flex:1"></div>
+<button class="btn" data-say="La connexion officielle TikTok arrive plus tard. Utilise la démo en attendant.">Connecter mon compte TikTok</button>
+<button class="btn ghost" data-go="dash">Voir la démo</button>
+<p class="k say" aria-live="polite"></p>
+<p class="k" style="text-align:center">Connexion officielle TikTok. Ton mot de passe ne nous est jamais transmis.</p>
+<p class="k" style="text-align:center"><a href="privacy.html">Privacy Policy</a> · <a href="terms.html">Terms of Service</a></p>
+</section>
+
+<section data-v="dash" hidden>
+<h1>Tableau de bord</h1>
+<div class="grid">
+<div class="card"><div class="k">Abonnés</div><div class="v">12,4 k</div></div>
+<div class="card"><div class="k">Vues (7 jours)</div><div class="v">84 k</div></div>
+<div class="card"><div class="k">Engagement</div><div class="v">6,2 %</div></div>
+<div class="card"><div class="k">Vidéos</div><div class="v">38</div></div>
+</div>
+<div class="card"><p class="lab">CE QUI MARCHE</p><p>Les vidéos courtes avec un hook dans les 3 premières secondes.</p></div>
+<div class="card"><p class="lab">À AMÉLIORER</p><p>Peu de publications le week-end, quand ton audience est la plus active.</p></div>
+</section>
+
+<section data-v="videos" hidden>
+<h1>Analyse des vidéos</h1>
+<div class="card"><p class="lab">BIENTÔT</p><p>Le classement de tes vidéos (ce qui marche et ce qui ne marche pas) arrive avec les vraies données TikTok.</p></div>
+</section>
+
+<section data-v="coach" hidden>
+<h1>Coach IA</h1>
+<div class="card"><p class="lab">STRATÉGIE DE LA SEMAINE</p><p>Publie 4 vidéos courtes autour d’un même thème pour que l’algorithme comprenne ton univers.</p></div>
+<div class="card"><p class="lab">HOOK PROPOSÉ</p><p style="font-size:18px;font-weight:700">“Ce détail que tout le monde oublie avant de poster…”</p></div>
+<div class="card"><p class="lab">HASHTAGS</p><div class="chips"><span class="chip">#musique</span><span class="chip">#cover</span><span class="chip">#live</span></div></div>
+<button class="btn" data-say="Le coach IA sera branché plus tard, avec tes vraies données.">Générer un script</button>
+<p class="k say" aria-live="polite"></p>
+</section>
+
+<section data-v="plan" hidden>
+<h1>Plan sur 7 jours</h1>
+<p class="k" id="cnt" style="font-size:14px"></p>
+<label class="task"><input type="checkbox" checked>Publier une vidéo avec un hook en 3 secondes</label>
+<label class="task"><input type="checkbox" checked>Répondre à 10 commentaires</label>
+<label class="task"><input type="checkbox">Tester un nouveau format court</label>
+<label class="task"><input type="checkbox">Analyser les vues des jours 1 à 3</label>
+<label class="task"><input type="checkbox">Réagir à la vidéo d’un autre créateur</label>
+<label class="task"><input type="checkbox">Publier à ton meilleur horaire</label>
+<label class="task"><input type="checkbox">Faire le bilan et préparer la semaine suivante</label>
+</section>
+</main>
+
+<nav hidden>
+<button data-go="dash">Tableau</button>
+<button data-go="videos">Vidéos</button>
+<button data-go="coach">Coach</button>
+<button data-go="plan">Plan</button>
+</nav>
+
+<script>
+const q=s=>document.querySelector(s),all=s=>[...document.querySelectorAll(s)];
+function show(id){
+all('[data-v]').forEach(e=>e.hidden=e.dataset.v!==id);
+all('nav button').forEach(b=>b.setAttribute('aria-current',String(b.dataset.go===id)));
+q('nav').hidden=q('#banner').hidden=id==='home';
+window.scrollTo(0,0);
+}
+all('[data-go]').forEach(b=>b.onclick=()=>show(b.dataset.go));
+all('[data-say]').forEach(b=>b.onclick=()=>{b.closest('section').querySelector('.say').textContent=b.dataset.say});
+const upd=()=>{const n=all('.task input:checked').length;q('#cnt').textContent=n+' sur 7 jours terminés'};
+all('.task input').forEach(i=>i.onchange=upd);
+upd();
+</script>
+</body>
+</html>
