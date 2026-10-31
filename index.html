@@ -112,5 +112,30 @@ const upd=()=>{const n=all('.task input:checked').length;q('#cnt').textContent=n
 all('.task input').forEach(i=>i.onchange=upd);
 upd();
 </script>
+<script>
+(function(){
+  const p = new URLSearchParams(location.search);
+  if (!p.has('followers')) return;
+  const fmt = n => Number(n || 0).toLocaleString('fr-FR');
+  const labels = document.querySelectorAll('[data-v="dash"] .k');
+  const values = document.querySelectorAll('[data-v="dash"] .v');
+  labels[0].textContent = 'Abonnés';        values[0].textContent = fmt(p.get('followers'));
+  labels[1].textContent = "J'aime";          values[1].textContent = fmt(p.get('likes'));
+  labels[2].textContent = 'Vidéos';          values[2].textContent = fmt(p.get('videos'));
+  labels[3].textContent = 'Compte';          values[3].textContent = p.get('name') || '—';
+  values[3].style.fontSize = '18px';
+  const cards = document.querySelectorAll('[data-v="dash"] .card');
+  cards[4].querySelector('p:not(.lab)').textContent =
+    'Connecté avec TikTok. Ces chiffres viennent de ton vrai compte. Les analyses détaillées arrivent ensuite.';
+  cards[5].querySelector('p:not(.lab)').textContent =
+    'Pas encore analysé : la version suivante donnera tes meilleures et moins bonnes vidéos.';
+  cards[5].querySelector('.lab').textContent = 'PROCHAINE ÉTAPE';
+  cards[4].querySelector('.lab').textContent = 'CONNEXION RÉELLE';
+  show('dash');
+  document.getElementById('banner').hidden = true;
+  document.querySelector('nav').hidden = false;
+  history.replaceState(null, '', location.pathname);
+})();
+</script>
 </body>
 </html>
