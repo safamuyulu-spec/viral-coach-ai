@@ -70,13 +70,7 @@ a{color:var(--muted)}
 </section>
 
 <section data-v="coach" hidden>
-<h1>Coach IA</h1>
-<div class="card"><p class="lab">STRATÉGIE DE LA SEMAINE</p><p>Publie 4 vidéos courtes autour d’un même thème pour que l’algorithme comprenne ton univers.</p></div>
-<div class="card"><p class="lab">HOOK PROPOSÉ</p><p style="font-size:18px;font-weight:700">“Ce détail que tout le monde oublie avant de poster…”</p></div>
-<div class="card"><p class="lab">HASHTAGS</p><div class="chips"><span class="chip">#musique</span><span class="chip">#cover</span><span class="chip">#live</span></div></div>
-<button class="btn" data-say="Le coach IA sera branché plus tard, avec tes vraies données.">Générer un script</button>
-<p class="k say" aria-live="polite"></p>
-</section>
+<h1>Coach IA</h1><div id="coach-body"></div></section>
 
 <section data-v="plan" hidden>
 <h1>Plan sur 7 jours</h1>
@@ -142,6 +136,33 @@ upd();
     document.getElementById('vlist').innerHTML = list.length
       ? '<div class="card"><p class="lab">CE QUI MARCHE LE MIEUX</p><p>' + esc(list[0].t) + ' (' + fmt(list[0].views) + ' vues)</p></div>' + list.map(row).join('')
       : '<div class="card"><p class="lab">AUCUNE VIDÉO</p><p>Ton compte n\'a pas encore de vidéo publique.</p></div>';
+  }
+  const cl = (() => { try { return JSON.parse(p.get('vlist') || '[]'); } catch (e) { return []; } })();
+  const coachEl = document.getElementById('coach-body');
+  if (coachEl) {
+    const followers = Number(p.get('followers') || 0);
+    const rate = v => v.views ? (v.likes + v.comments + v.shares) / v.views * 100 : 0;
+    const esc = t => String(t || '').replace(/[<>&]/g, c => ({'<':'&lt;','>':'&gt;','&':'&amp;'}[c]));
+    const cards = [];
+    if (cl.length) {
+      const byEng = [...cl].sort((a, b) => rate(b) - rate(a));
+      const best = byEng[0];
+      const tags = {};
+      cl.forEach(v => (String(v.t).match(/#[\p{L}\p{N}_]+/gu) || []).forEach(h => tags[h] = (tags[h] || 0) + 1));
+      const topTags = Object.entries(tags).sort((a, b) => b[1] - a[1]).slice(0, 5).map(e => esc(e[0]));
+      const avg = cl.reduce((sum, v) => sum + rate(v), 0) / cl.length;
+      cards.push(['STRATÉGIE', 'Ta vidéo la plus engageante (' + rate(best).toFixed(1) + ' %) est ta meilleure piste. Refais un format proche : même durée, même façon de commencer.']);
+      cards.push(['ENGAGEMENT MOYEN', 'Ton engagement moyen est de ' + avg.toFixed(1) + ' %. Mesure-le à nouveau après tes prochaines vidéos pour voir si ça progresse.']);
+      cards.push(['IDÉE DE HOOK', 'Dans les 3 premières secondes, pose une question ou annonce quelque chose de concret. C\'est ce qui retient les spectateurs.']);
+      cards.push(['HASHTAGS', topTags.length ? topTags.join(' ') : 'Aucun hashtag trouvé dans tes titres.']);
+    } else {
+      cards.push(['AUCUNE VIDÉO', 'Ton compte n\'a pas encore de vidéo publique à analyser. Publie quelques vidéos, puis reconnecte-toi.']);
+    }
+    cards.push(['RYTHME', followers < 1000
+      ? 'Publie au moins 3 vidéos par semaine pour tester plusieurs formats, puis compare les résultats après 2 semaines.'
+      : 'Publie régulièrement et garde le même thème pour que ton audience reconnaisse ton univers.']);
+    coachEl.innerHTML = cards.map(([l, t]) => '<div class="card"><p class="lab">' + l + '</p><p>' + t + '</p></div>').join('')
+      + '<p class="k" style="text-align:center">Suggestions calculées à partir de tes chiffres. Une IA complète arrivera dans une prochaine version.</p>';
   }
   window.REAL = true;
   show('dash');
