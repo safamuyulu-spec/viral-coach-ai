@@ -103,7 +103,7 @@ const q=s=>document.querySelector(s),all=s=>[...document.querySelectorAll(s)];
 function show(id){
 all('[data-v]').forEach(e=>e.hidden=e.dataset.v!==id);
 all('nav button').forEach(b=>b.setAttribute('aria-current',String(b.dataset.go===id)));
-q('nav').hidden=q('#banner').hidden=id==='home';
+q('nav').hidden=id==='home';q('#banner').hidden=id==='home'||window.REAL===true;
 window.scrollTo(0,0);
 }
 all('[data-go]').forEach(b=>b.onclick=()=>show(b.dataset.go));
@@ -143,8 +143,8 @@ upd();
       ? '<div class="card"><p class="lab">CE QUI MARCHE LE MIEUX</p><p>' + esc(list[0].t) + ' (' + fmt(list[0].views) + ' vues)</p></div>' + list.map(row).join('')
       : '<div class="card"><p class="lab">AUCUNE VIDÉO</p><p>Ton compte n\'a pas encore de vidéo publique.</p></div>';
   }
+  window.REAL = true;
   show('dash');
-  document.getElementById('banner').hidden = true;
   document.querySelector('nav').hidden = false;
   history.replaceState(null, '', location.pathname);
 })();
