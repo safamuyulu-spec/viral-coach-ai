@@ -66,7 +66,7 @@ a{color:var(--muted)}
 
 <section data-v="videos" hidden>
 <h1>Analyse des vidéos</h1>
-<div class="card"><p class="lab">BIENTÔT</p><p>Le classement de tes vidéos (ce qui marche et ce qui ne marche pas) arrive avec les vraies données TikTok.</p></div>
+<div id="vlist"><div class="card"><p class="lab">CHARGEMENT</p><p>Analyse de tes vidéos en cours.</p></div></div>
 </section>
 
 <section data-v="coach" hidden>
@@ -131,6 +131,18 @@ upd();
     'Pas encore analysé : la version suivante donnera tes meilleures et moins bonnes vidéos.';
   cards[5].querySelector('.lab').textContent = 'PROCHAINE ÉTAPE';
   cards[4].querySelector('.lab').textContent = 'CONNEXION RÉELLE';
+  const vraw = p.get('vlist');
+  if (vraw) {
+    let list = [];
+    try { list = JSON.parse(vraw); } catch (e) {}
+    const rate = v => v.views ? Math.round(1000 * (v.likes + v.comments + v.shares) / v.views) / 10 : 0;
+    const esc = t => String(t || '(sans titre)').replace(/[<>&]/g, c => ({'<':'&lt;','>':'&gt;','&':'&amp;'}[c]));
+    list.sort((a, b) => b.views - a.views);
+    const row = v => '<div class="card"><p class="lab">' + esc(v.t) + '</p><p>' + fmt(v.views) + ' vues · ' + fmt(v.likes) + " j'aime · " + fmt(v.comments) + ' commentaires · ' + fmt(v.shares) + ' partages</p><p class="k">Engagement : ' + rate(v) + ' %</p></div>';
+    document.getElementById('vlist').innerHTML = list.length
+      ? '<div class="card"><p class="lab">CE QUI MARCHE LE MIEUX</p><p>' + esc(list[0].t) + ' (' + fmt(list[0].views) + ' vues)</p></div>' + list.map(row).join('')
+      : '<div class="card"><p class="lab">AUCUNE VIDÉO</p><p>Ton compte n\'a pas encore de vidéo publique.</p></div>';
+  }
   show('dash');
   document.getElementById('banner').hidden = true;
   document.querySelector('nav').hidden = false;
