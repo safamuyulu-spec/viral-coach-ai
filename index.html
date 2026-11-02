@@ -70,7 +70,11 @@ a{color:var(--muted)}
 </section>
 
 <section data-v="coach" hidden>
-<h1>Coach IA</h1><div id="coach-body"></div></section>
+<h1>Coach IA</h1><div id="coach-body"></div>
+<div class="card"><p class="lab">DEMANDE AU COACH</p>
+<textarea id="q" rows="3" placeholder="Pose une question, ou demande un message (ex : écris une relance pour mes fans)" style="width:100%;box-sizing:border-box;margin-top:8px;padding:10px;border-radius:12px;border:1px solid var(--line);background:var(--bg);color:var(--text);font:15px 'Plus Jakarta Sans',system-ui,sans-serif"></textarea>
+<button id="ask" class="btn" style="margin-top:10px;width:100%">Envoyer</button>
+<div id="answer" style="margin-top:12px;white-space:pre-wrap;line-height:1.5"></div></div></section>
 
 <section data-v="plan" hidden>
 <h1>Plan sur 7 jours</h1>
@@ -138,6 +142,7 @@ upd();
       : '<div class="card"><p class="lab">AUCUNE VIDÉO</p><p>Ton compte n\'a pas encore de vidéo publique.</p></div>';
   }
   const cl = (() => { try { return JSON.parse(p.get('vlist') || '[]'); } catch (e) { return []; } })();
+  window.CTX = { name: p.get('name'), followers: p.get('followers'), likes: p.get('likes'), videos: p.get('videos'), topVideos: cl.slice(0, 10) };
   const coachEl = document.getElementById('coach-body');
   if (coachEl) {
     const followers = Number(p.get('followers') || 0);
@@ -164,6 +169,24 @@ upd();
     coachEl.innerHTML = cards.map(([l, t]) => '<div class="card"><p class="lab">' + l + '</p><p>' + t + '</p></div>').join('')
       + '<p class="k" style="text-align:center">Suggestions calculées à partir de tes chiffres. Une IA complète arrivera dans une prochaine version.</p>';
   }
+  const askBtn = document.getElementById('ask');
+  if (askBtn) askBtn.onclick = async () => {
+    const msg = document.getElementById('q').value.trim();
+    if (!msg) return;
+    const out = document.getElementById('answer');
+    out.textContent = 'Le coach réfléchit…';
+    try {
+      const r = await fetch('https://iffcoaqnegafqvsoslxf.supabase.co/functions/v1/coach-chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: msg, context: window.CTX || {} })
+      });
+      const j = await r.json();
+      out.textContent = j.reply;
+    } catch (e) {
+      out.textContent = 'Connexion impossible. Réessaie dans un instant.';
+    }
+  };
   window.REAL = true;
   show('dash');
   document.querySelector('nav').hidden = false;
